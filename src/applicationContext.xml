@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+	<!-- 注解扫描 -->
+	<context:component-scan
+		base-package="cn.henu.service.impl"></context:component-scan>
+	<!-- 加载属性文件 -->
+	<context:property-placeholder
+		location="classpath:db.properties" />
+	<!-- 数据源封装类,数据源：获取数据库连接，spring-jdbc.jar中 -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${jdbc.driver}"></property>
+		<property name="url" value="${jdbc.url}"></property>
+		<property name="username" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+	</bean>
+
+	<!-- 创建SqlSessionFactory对象 -->
+	<bean id="factory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 数据库连接信息来源于DataSource -->
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="typeAliasesPackage" value="cn.henu.pojo"></property>
+	</bean>
+
+	<!-- 扫描器相当于mybatis.xml中mappers下package标签 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 要扫描的包 -->
+		<property name="basePackage" value="cn.henu.mapper"></property>
+		<!-- 和factory产生关系 -->
+		<property name="sqlSessionFactoryBeanName" value="factory"></property>
+	</bean>
+	<!-- 事务管理 -->
+	<bean id="txManage"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!--文件操作-->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!--默认编码-->
+        <property name="defaultEncoding" value="UTF-8"/>
+        <!--文件大小最大值-->
+        <property name="maxUploadSize" value="10485760000"/>
+        <!--文件大小最小值-->
+        <property name="maxInMemorySize" value="40960"/>
+    </bean>
+	<!-- 声明式事务 -->
+	<tx:advice id="txAdvice" transaction-manager="txManage">
+		<tx:attributes>
+			<tx:method name="ins*" />
+			<tx:method name="del*" />
+			<tx:method name="upd*" />
+			<tx:method name="*" />
+		</tx:attributes>
+	</tx:advice>
+	<!-- 配置aop 
+	<aop:config>
+		<aop:pointcut
+			expression="execution(* cn.henu.service.impl.*.*(..))" id="mypoint" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="mypoint" />
+	</aop:config>-->
+</beans>
