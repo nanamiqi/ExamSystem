@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="ExamSystem Team4">
+    <output-path>$PROJECT_DIR$/out/artifacts/ExamSystem_Team4</output-path>
+    <root id="root" />
+  </artifact>
+</component>
