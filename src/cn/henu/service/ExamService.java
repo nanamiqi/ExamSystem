@@ -32,4 +32,6 @@ public interface ExamService {
 	public List<Student> selStartExamStudent(String e_name);
 
 	public String selFileByName(String e_name);
+
+	public String upSubmitStudent(String stu_id, String stu_exam);
 }

@@ -27,6 +27,6 @@ public interface StudentService {
 	public int updStuIp(Student stu);
 
 	public List<Answer> selAllInfo(String stu_id, String exam_name);
-	
-	
+
+	public List<Student> selSubmitStudent(String exam_name);
 }

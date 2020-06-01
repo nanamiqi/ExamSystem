@@ -120,4 +120,11 @@ public class StudentServiceImpl implements StudentService {
     public List<Answer> selAllInfo(String stu_id, String exam_name) {
         return studentMapper.selAllInfo(stu_id, exam_name);
     }
+
+    @Override
+    public List<Student> selSubmitStudent(String exam_name) {
+        return studentMapper.selSubmitStudent(exam_name);
+    }
+
+
 }

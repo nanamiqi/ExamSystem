@@ -132,5 +132,10 @@ public class ExamServiceImpl implements ExamService {
         return examMapper.selFileByName(e_name);
     }
 
+    @Override
+    public String upSubmitStudent(String stu_id, String stu_exam) {
+        return examMapper.upSubmitStudent(stu_id, stu_exam);
+    }
+
 
 }
