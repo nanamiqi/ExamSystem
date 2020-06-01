@@ -3,6 +3,7 @@ package cn.henu.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import cn.henu.pojo.Answer;
+import cn.henu.service.StudentService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +30,10 @@ import cn.henu.service.ExamService;
 public class ExamController {
     @Resource
     private ExamService examServiceImpl;
+    @Resource
+    private StudentService studentService;
+    @Resource
+    private ExamService examService;
 
     @RequestMapping("examStart")
     public String examStart(HttpSession session) {
@@ -53,6 +60,10 @@ public class ExamController {
         } else {
             session.setAttribute("info", "<script>alert('文件上传失败');</script>");
         }
+        //-------------------------------------------------------
+        List<Exam> exams = examServiceImpl.selStartExam();
+        getSubmits(exams.get(0).getE_name()); //统计已经提交试卷人数，若提交stu_submit=1
+        //--------------------------------------------------------
         return "redirect:/student/student_about.jsp";
     }
 
@@ -82,7 +93,7 @@ public class ExamController {
 
     @RequestMapping("getStartExamInfo")
     @ResponseBody
-    public List<Student> getStartExamInfo(HttpSession session) {
+    public List<Student> getStartExamInfo() {
         List<Exam> exams = examServiceImpl.selStartExam();
         if (exams.size() > 1) {
             System.out.println("当前存在多场考试，请联系管理员");
@@ -170,4 +181,29 @@ public class ExamController {
         session.setAttribute("exam", oldExam);
         return "redirect:/teacher/teacher_addexam.jsp";
     }
+
+    /**
+     * 查询参加某一考试的学生是否提交试卷
+     */
+    public void getSubmits(String examName) {
+        List<Student> students = studentService.selSubmitStudent(examName);
+        Answer answer;
+        List<Answer> answers = new ArrayList<>();
+        for(Student s: students){
+            try{
+                answer = studentService.selAllInfo(s.getStu_id(), examName).get(0);
+                answers.add(answer);
+            }catch (Exception e){}
+
+        }
+        for(Student s: students){
+            for(Answer a: answers){
+                if(a.getStu_id().equals(s.getStu_id())){
+                    String code = examService.upSubmitStudent(s.getStu_id(), a.getExam_name());
+                }
+            }
+        }
+
+    }
+
 }

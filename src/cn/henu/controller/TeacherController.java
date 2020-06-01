@@ -3,9 +3,11 @@ package cn.henu.controller;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -14,6 +16,7 @@ import cn.henu.pojo.Teacher;
 import cn.henu.service.ExamService;
 import cn.henu.service.TeacherService;
 import cn.henu.util.MD5;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class TeacherController {
@@ -178,4 +181,15 @@ public class TeacherController {
         return "redirect:/login.jsp";
     }
 
+    /**
+     * 教师添加考试通知
+     */
+    @RequestMapping("teacherInformation")
+    public String addNotice(HttpServletRequest request, HttpSession session) {
+        String info = request.getParameter("information");
+        session.setAttribute("notice", info);
+        return "redirect:/login.jsp";
+    }
+
 }
+
