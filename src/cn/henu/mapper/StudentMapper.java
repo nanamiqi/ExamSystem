@@ -30,4 +30,9 @@ public interface StudentMapper {
 
 	@Select("select * from answer where stu_id=#{param1} and exam_name=#{param2}")
 	List<Answer> selAllInfo(String stu_id, String exam_name);
+
+	@Select("select * from student where stu_exam=#{param1}")
+	List<Student> selSubmitStudent(String exam_name);
+
+
 }

@@ -43,4 +43,8 @@ public interface ExamMapper {
 
 	@Select("select e_examination from exam where e_name=#{param1}")
 	String selFileByName(String e_name);
+
+	@Select("update student set stu_submit=1 where stu_id=#{param1} and stu_exam=#{param2}")
+	String upSubmitStudent(String stu_id, String stu_exam);
+
 }
