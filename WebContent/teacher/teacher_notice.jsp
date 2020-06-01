@@ -16,8 +16,8 @@
 				method="post" style="margin-left: 20px; margin-top: 5px;">
 				<div class="form-group">
 					<input type="text" name="information" class="form-control"
-						style="width: 250px" placeholder="通知消息内容*"> <input
-						type="submit" class="btn btn-info" value="发送" />
+						style="width: 250px" placeholder="通知消息内容*">
+                    <input type="submit" class="btn btn-info" value="发送" />
 				</div>
 			</form>
 		</div>
@@ -29,7 +29,12 @@
 				style="margin-left: 20px; margin-top: 5px;">
 				<table class="table table-bordered" style="margin-top: 10px">
 					<tr>
-						<th class="col-md-12" colspan="2" style="text-align:center">通知内容</th>
+						<th class="col-md-12"  rowspan="1" style="text-align:center">通知内容</th>
+					<%
+							if(session.getAttribute("notice") != null){
+							    out.print("<th rowspan='1' style='text-align:center'>"+ session.getAttribute("notice") + "</th>");
+							}
+					%>
 				</table>
 			</form>
 		</div>

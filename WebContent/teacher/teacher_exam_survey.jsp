@@ -49,7 +49,7 @@
                     if (data[i].stu_ip != null) {
                         stuLogin++;
                     }
-                    if (data[i].stu_submit != null && data[i].stu_submit !== 0) {
+                    if (data[i].stu_submit === 1) {
                         stuSubmit++;
                     }
                 }
