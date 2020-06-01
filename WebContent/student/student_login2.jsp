@@ -11,7 +11,11 @@
 <body>
 <div class="container">
     <div class="alert navbar-inverse">
-        <strong id="tip" style="color: white; margin-left: 20px; font-size: 20px"></strong>
+        <strong id="tip" style="color: white; margin-left: 20px; font-size: 20px">
+            <%  if(session.getAttribute("notice") != null) {
+                    out.print("通知：" + session.getAttribute("notice"));
+                } %>
+        </strong>
     </div>
     <div class="exam-login row vertical-center">
         <div class="signin-head">
@@ -37,10 +41,7 @@
         $.get("getStartExam", function (data) {
             if (data == false) {
                 $("#loginsubmit").attr("disabled", true);
-                $("#tip").html("当前没有进行中的考试，不能登陆");
-            } else {
-                $("#loginsubmit").attr("disabled", false);
-                $("#tip").html("");
+                $("#tip").html("当前没有进行中的考试，不能登陆！");
             }
         })
     })

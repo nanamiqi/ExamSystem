@@ -36,5 +36,6 @@
         <img src="../images/test/examing2.jpg" width="100" height="100"/> ${student.stu_name }同学, 上机考试中...
     </h2>
 </div>
+
 </body>
 </html>
