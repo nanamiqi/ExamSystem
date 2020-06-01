@@ -16,8 +16,8 @@ body {
 }
 </style>
 </head>
-<%
-	if(session.getAttribute("info")!=null){
+<%  //显示教师发布的考试通知
+	if(session.getAttribute("info") != null) {
 		out.print(session.getAttribute("info"));
 		session.removeAttribute("info");
 	}
